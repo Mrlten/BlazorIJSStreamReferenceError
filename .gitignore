@@ -1,0 +1,25 @@
+# npm packages directory
+node_modules
+
+# Hidden Visual Studio directory
+.vs
+
+#nuget packages directory
+packages
+
+#include package repositories
+!packages\repositories.config
+
+#build and package artefacts
+bin
+obj
+*.dll
+*.pdb
+
+#logfiles
+
+#user specific
+*.csproj.user
+*.suo
+*.sln.docstates
+/.idea/.idea.Zorgdossier/.idea

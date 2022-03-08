@@ -1,0 +1,64 @@
+﻿@page "/"
+
+<PageTitle>Index</PageTitle>
+
+<h4>Readme</h4>
+<p>
+    <ol>
+        <li>
+            Click on the 'Retrieve data using IJSStreamReference' button below at least once.
+        </li>
+        <li>
+            Let the browser lose its connection to the server (the browser must connect to the original session on the server
+            so don't shutdown the server process).
+        </li>
+        <li>
+            After the browser reconnected to the (original) session click on the 'Retrieve data using IJSStreamReference' button
+            again.
+        </li>
+        <li>
+            Now the following things will happen:
+            <ul>
+                <li>
+                    The <code>RetrieveBlobAsync</code> server-side method is succesfully called.
+                </li>
+                <li>
+                    The <code>retrieveBlob</code> javascript function is succesfully called.
+                </li>
+                <li>
+                    The following javascript error is immediately thrown in the browser's console:<br />
+                    <code>
+                        Uncaught (in promise) Error: Cannot send data if the connection is not in the 'Connected' State.<br />
+                        at bt.send (blazor.server.js:1:52004)<br />
+                        at kt._sendMessage (blazor.server.js:1:68639)<br />
+                        at kt._sendWithProtocol (blazor.server.js:1:68680)<br />
+                        at kt.send (blazor.server.js:1:68788)<br />
+                        at blazor.server.js:1:129930
+                    </code>
+                </li>
+                <li>
+                    After 30 (?) seconds the following error is thrown at the server process:<br />
+                    <code>
+                        fail: Microsoft.AspNetCore.Components.Server.Circuits.CircuitHost[111]<br />
+                        Unhandled exception in circuit 'gdrrToRh8Rwr9lh70UeQR8_kBwaW5nkxAtDwy4y1LYo'.<br />
+                        System.TimeoutException: Did not receive any data in the allotted time.<br />
+                        at System.IO.Pipelines.Pipe.GetReadResult(ReadResult& result)<br />
+                        at System.IO.Pipelines.Pipe.GetReadAsyncResult()<br />
+                        at System.IO.Pipelines.PipeReaderStream.ReadAsyncInternal(Memory`1 buffer, CancellationToken cancellationToken)
+                    </code>
+                </li>
+                <li>
+                    Followed by two <code>Microsoft.JSInterop.JSDisconnectedException</code>'s.
+                </li>
+            </ul>
+        </li>
+        <li>
+            Now the user's session has crashed and the user needs to refresh the browser.
+        </li>
+    </ol>
+</p>
+<br />
+
+<button type="button" class="btn btn-primary" @onclick="RetrieveBlobAsync">
+    Retrieve data using IJSStreamReference
+</button>
